@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>promises</title>
+</head>
+<body>
+<script type="text/javascript">
+function getTotalStars(repoOwner, repoName) {
+  return new Promise((resolve, reject) => {
+    // Membuat URL endpoint untuk API GitHub
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}`;
+
+    // Melakukan fetch API ke endpoint
+    fetch(apiUrl)
+      .then(response => {
+        // Mengecek status response
+        if (!response.ok) {
+          throw new Error('Request gagal');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Mengambil nilai total bintang dari data response
+        const totalStars = data.stargazers_count;
+        resolve(totalStars);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
+// Contoh penggunaan
+const repoOwner = 'Daffabot';
+const repoName = 'Daffabot.github.io';
+
+getTotalStars(repoOwner, repoName)
+  .then(totalStars => {
+    console.log('Total bintang:', totalStars);
+  })
+  .catch(error => {
+    console.error('Terjadi kesalahan:', error);
+  });
+
+</script>
+
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const data = 'Data berhasil diambil';
+      resolve(data);
+      // Jika terjadi kesalahan:
+      // reject('Terjadi kesalahan');
+    }, 2000);
+  });
+}
+
+fetchData()
+  .then(data => {
+    console.log('Data yang diterima:', data);
+  })
+  .catch(error => {
+    console.error('Terjadi kesalahan:', error);
+  });
+console.log('Eksekusi kode berlanjut');
+
+</body>
+</html>
